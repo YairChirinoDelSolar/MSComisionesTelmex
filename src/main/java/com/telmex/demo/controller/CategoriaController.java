@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,17 @@ public class CategoriaController extends BaseController{
     private CategoriaService categoriaService;
 
     @GetMapping("/by/session")
-    public ResponseEntity<CustomResponse> getAllCCategoriasBySession(Principal principal){
+    public ResponseEntity<CustomResponse> getAllCategoriasBySession(Principal principal){
+        CustomResponse customResponse = new CustomResponse.CustomResponseBuilder(HttpStatus.OK).builder();
+        UserSession session = getSession(principal);
+        List<Long> ids = session.getUsuario().getRoles().stream().map(UserRole::getIdRole).collect(Collectors.toList());
+        List<UserCategory> data = categoriaService.findAllByRol(ids);
+        customResponse.setData(data);
+        return ResponseEntity.status(customResponse.getHttpStatus()).body(customResponse);
+    }
+
+    @PostMapping("/by/session")
+    public ResponseEntity<CustomResponse> updateCategoriasBySession(Principal principal){
         CustomResponse customResponse = new CustomResponse.CustomResponseBuilder(HttpStatus.OK).builder();
         UserSession session = getSession(principal);
         List<Long> ids = session.getUsuario().getRoles().stream().map(UserRole::getIdRole).collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.telmex.demo.service.implement;
 
+import com.telmex.demo.dto.CustomResponse;
 import com.telmex.demo.entity.UserCategory;
 import com.telmex.demo.repository.CategoriaRepository;
 import com.telmex.demo.service.CategoriaService;
@@ -18,5 +19,11 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public List<UserCategory> findAllByRol(List<Long> idRol) {
         return categoriaRepository.findAllRol(idRol);
+    }
+
+    @Override
+    public CustomResponse updateCategoria() {
+
+        return null;
     }
 }

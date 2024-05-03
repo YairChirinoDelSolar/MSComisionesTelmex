@@ -23,6 +23,8 @@ public class UserInfo extends BaseObject {
     private long idUser;
     @Column(name = "usuario", unique = true, nullable = false)
     private String username;
+    @Column(name = "is_active", unique = true, nullable = false)
+    private Boolean isActive;
     @JsonIgnore
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)

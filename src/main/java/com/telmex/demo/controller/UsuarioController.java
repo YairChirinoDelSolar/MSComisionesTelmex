@@ -26,6 +26,27 @@ public class UsuarioController {
         }
     }
 
+    @PostMapping(value = "/update")
+    public ResponseEntity updateUser(@RequestBody UserRequest userRequest) {
+        try {
+            UserResponse userResponse = userService.saveUser(userRequest);
+            return ResponseEntity.ok(userResponse);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        try {
+            UserResponse userResponse = userService.deleteUser(id);
+            return ResponseEntity.ok(userResponse);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     @GetMapping("/users")
     public ResponseEntity getAllUsers() {
         try {

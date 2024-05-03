@@ -62,6 +62,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse deleteUser(Long id) {
+        UserInfo savedUser = null;
+        UserInfo oldUser = userRepository.findFirstByIdUser(id);
+
+        if(oldUser == null) throw new RuntimeException("Can't find record with identifier: " + id);
+
+        UserInfo user = modelMapper.map(oldUser, UserInfo.class);
+        if (user.getIsActive()) {
+            user.setIsActive(false);
+            savedUser = userRepository.save(user);
+        } else {
+            throw new RuntimeException("The user is disabled: " + id);
+        }
+        UserResponse userResponse = modelMapper.map(savedUser, UserResponse.class);
+        return userResponse;
+    }
+
+    @Override
     public UserResponse getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) authentication.getPrincipal();

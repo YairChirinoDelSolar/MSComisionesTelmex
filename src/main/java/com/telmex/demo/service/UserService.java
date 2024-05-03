@@ -9,6 +9,8 @@ public interface UserService {
 
     UserResponse saveUser(UserRequest userRequest);
 
+    UserResponse deleteUser(Long id);
+
     UserResponse getUser();
 
     List<UserResponse> getAllUser();
